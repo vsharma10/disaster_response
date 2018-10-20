@@ -65,6 +65,7 @@ def index():
                 },
                 'xaxis': {
                     'title': "Category",
+                    'tickangle':-30
                 }
             }
         },
