@@ -141,12 +141,12 @@ def evaluate_model(model, X_test, Y_test, category_names):
     y_pred = model.predict(X_test)
     print("Accuracy scores for each category:\n")
     for  idx, cat in enumerate(Y_test.columns.values):
-        accuracy  = round(accuracy_score(Y_test.values[:,idx], y_pred[:, idx]), 2)
-        pres      = precision(Y_test.values[:,idx], y_pred[:, idx])
+    	accuracy  = round(accuracy_score(Y_test.values[:,idx], y_pred[:, idx]), 2)
+    	pres      = precision(Y_test.values[:,idx], y_pred[:, idx])
     	reca      = recall(Y_test.values[:,idx], y_pred[:, idx])
     	f1_scr    = f1(Y_test.values[:,idx], y_pred[:, idx])
     	print("{}:".format(cat))
-        print("\t-- Accuracy = {}; Precision = {}; Recall = {}; F1 Score = {}\n".format(accuracy, pres, reca, f1_scr))
+    	print("\t-- Accuracy = {}; Precision = {}; Recall = {}; F1 Score = {}\n".format(accuracy, pres, reca, f1_scr))
 
 
 
