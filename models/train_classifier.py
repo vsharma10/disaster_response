@@ -71,6 +71,61 @@ def build_model():
     return cv
 
 
+
+def precision(y_test, y_pred):
+	"""
+	INPUT
+	y_test - Labels from test set for a given category
+	y_pred - predicted labels for a given category
+	OUTPUT
+	Precision value for a given category
+	"""
+    count = 0
+    for i in range(len(y_test)):
+        if y_test[i] == 1 & y_pred[i] == 1:
+            count += 1
+    
+    if list(y_pred).count(1) == 0:
+        return 0.0
+    else:
+        return round(count/list(y_pred).count(1), 4)
+
+def recall(y_test, y_pred):
+	"""
+	INPUT
+	y_test - Labels from test set for a given category
+	y_pred - predicted labels for a given category
+	OUTPUT
+	Recall value for a given category
+	"""
+    count = 0
+    for i in range(len(y_test)):
+        if y_test[i] == 1 & y_pred[i] == 1:
+            count += 1
+    
+    if list(y_test).count(1) == 0:
+        return 0.0
+    else:
+        return round(count/list(y_test).count(1), 4)
+
+
+def f1(y_test, y_pred):
+	"""
+	INPUT
+	y_test - Labels from test set for a given category
+	y_pred - predicted labels for a given category
+	OUTPUT
+	F1 Score for a given category
+	"""
+    p = precision(y_test, y_pred)
+    r = recall(y_test, y_pred)
+    if p + r == 0:
+        return 0.0
+    else:
+        return round((2 * (p * r) / (p + r)), 4)
+
+
+
 def evaluate_model(model, X_test, Y_test, category_names):
     """
     Evaluate model against test dataset
@@ -87,7 +142,13 @@ def evaluate_model(model, X_test, Y_test, category_names):
     print("Accuracy scores for each category:\n")
     for  idx, cat in enumerate(Y_test.columns.values):
         accuracy  = round(accuracy_score(Y_test.values[:,idx], y_pred[:, idx]), 2)
-        print("{} -- Accuracy = {}".format(cat, accuracy))
+        pres      = precision(Y_test.values[:,idx], y_pred[:, idx])
+    	reca      = recall(Y_test.values[:,idx], y_pred[:, idx])
+    	f1_scr    = f1(Y_test.values[:,idx], y_pred[:, idx])
+    	print("{}:".format(cat))
+        print("\t-- Accuracy = {}; Precision = {}; Recall = {}; F1 Score = {}\n".format(accuracy, pres, reca, f1_scr))
+
+
 
 def save_model(model, model_filepath):
     """
@@ -99,6 +160,7 @@ def save_model(model, model_filepath):
     Saves the model as pickle file
     """
     pickle.dump(model, open(model_filepath, 'wb'))
+
 
 
 def main():
